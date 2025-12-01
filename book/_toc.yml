@@ -5,27 +5,38 @@ parts:
   - caption: Lectures
     chapters:
       - file: lectures/lesson1/lesson1
+        title: Lecture 1
       - file: lectures/lesson2/lesson2
+        title: Lecture 2
       - file: lectures/lesson3/lesson3
+        title: Lecture 3
       - file: lectures/lesson4/lesson4
+        title: Lecture 4
       - file: lectures/lesson5/lesson5
+        title: Lecture 5
       - file: lectures/lesson6/lesson6
-  - caption: Exercises
-    chapters:
-      - file: exercises/exercise-1-python-basics
+        title: Lecture 6
+  # - caption: Exercises
+  #   chapters:
+  #     - file: exercises/exercise-1-python-basics  # File not found - commented out
   - caption: Labs
     chapters:
-      - file: labs/Laboratory Activty 1
-      - file: labs/Laboratory Activty 2
-      - file: labs/Laboratory Activity 3
-      - file: labs/Laboratory Activity 4
-      - file: labs/lab-5-pytorch-intro
-      - file: labs/Laboratory_Activty
-      - file: labs/Lab Activity 201
-  - caption: Group Projects
+      - file: labs/DL-Lab1
+      - file: labs/DL-Lab2
+      - file: labs/DL-Lab3
+      - file: labs/DL-Lab4
+      - file: labs/DL-Lab5
+      - file: labs/DL-Lab6
+      - file: labs/DL-Lab201
+      - file: labs/Homework201
+        title: Homework 201
+  - caption: Narrative Reports
     chapters:
-      - file: group-activities/resources
-      - file: group-activities/temporal
-  - caption: Deep Learning Blog Post
-    chapters:
-      - file: Blog_Post/homework_201
+      - file: narrative-reports/phase1
+      - file: narrative-reports/phase2
+      - file: narrative-reports/phase3
+  # - caption: Deep Learning Blog Post
+  #   chapters:
+  #     - file: Blog_Post/homework_201  # Excluded - uses 'venv' kernel instead of 'deeplearning_env'
+
+

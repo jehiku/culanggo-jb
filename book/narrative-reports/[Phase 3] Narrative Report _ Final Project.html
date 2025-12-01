@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Phase 3] Narrative Report _ Final Project</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .page {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            padding: 20px;
+            background: white;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>[Phase 3] Narrative Report _ Final Project</h1>
+    <div class="page">
+        <h2>Page 1</h2>
+        <div>Narrative Report | [Phase 3] Final Project​<br>
+        By: Kein Jake A. Culanggo <br>
+        Phase 3 centers on the systematic evaluation of three convolutional neural network <br>
+        architectures to establish how well standard image-based deep learning models perform on the ASL <br>
+        fingerspelling task when trained from scratch on the Kaggle ASL dataset. The primary goal of this <br>
+        phase is to determine the baseline representational capacity of VGG16, ResNet18, and MobileNetV2 <br>
+        under controlled conditions, thereby creating a technical reference point that can later be compared <br>
+        against the practical demands of real-world recognition. This stage functions as an architectural <br>
+        benchmarking step, identifying how depth, residual connectivity, and lightweight design interact with <br>
+        the properties of a static ASL dataset. Although these experiments technically overlap with model <br>
+        experimentation, they are reported here because their outcomes directly inform the validity of the <br>
+        earlier data collection processes and help clarify whether the training dataset itself supports <br>
+        generalization to real testing conditions. <br>
+        Although the quantitative results reported for VGG16, ResNet18, and MobileNetV2 provide clear <br>
+        evidence of architectural differences in representational capacity, these outcomes must be interpreted <br>
+        cautiously in relation to the earlier phases of the project. VGG16 and ResNet18 demonstrated strong <br>
+        generalization performance on the static Kaggle dataset, achieving test accuracies of 0.9722 and <br>
+        0.9643, respectively, while MobileNetV2 exhibited a markedly lower accuracy of 0.7024 due to its <br>
+        constrained parameterization and lightweight design. These results suggest that high-capacity or <br>
+        residual architectures are more effective at capturing the fine-grained spatial structures required for <br>
+        ASL hand-sign recognition, particularly when trained from scratch on a dataset with limited <br>
+        intra-class variation. The stability of the loss curves for both VGG16 and ResNet18 and their rapid <br>
+        convergence toward low training and validation losses indicate that the dataset was sufficiently <br>
+        structured for these architectures to learn discriminative features in a static, controlled setting. <br>
+        However, despite these strong numerical outcomes, the transition from dataset-based testing to <br>
+        real-world testing exposed a significant mismatch between model accuracy and practical usability. As <br>
+        stated in Phase 2, when the models were applied to our self-filmed ASL videos, performance <br>
+        degraded sharply: letters were confused with visually similar numbers, classification consistency <br>
+        deteriorated, and predictions became unreliable even under controlled filming conditions. This <br>
+        discrepancy necessitates a disclaimer. While this section reports model experimentation trends, the <br>
+        observations obtained during real-world testing were not part of Phase 3’s architectural comparison <br>
+        but rather an extension of Phase 2’s validation of the suitability and realism of the dataset. These <br>
+        performance issues arose not from model design choices but from our attempt to verify whether the <br>
+        dataset collected earlier truly supported generalization to authentic hand-sign scenarios. <br>
+        The initial success of VGG16 and ResNet18 on the Kaggle dataset, contrasted with their failure to <br>
+        handle our own testing videos, suggests that the limitations of Phase 1 and Phase 2 are now clearer. It <br>
+        is possible that the dataset used for training lacked sufficient variability in lighting, background <br>
+        structure, arm visibility, skin tone variation, and finger articulation patterns. This is consistent with <br>
+        our observations: despite re-filming against plain white walls, controlling arm visibility, and <br>
+        standardizing hand position, the models treated the testing samples as out-of-distribution. These <br>
+        mismatches imply that the foundations established in Phases 1 and 2 were partially constrained by the <br>
+        initial dataset choice, and that the strong numerical performance recorded during Phase 3 should not <br>
+        be interpreted as evidence of real-world readiness. <br>
+        </div>
+    </div>
+    <div class="page">
+        <h2>Page 2</h2>
+        <div>Throughout this process, responsibilities remained consistent. Dela Cruz led the implementation, <br>
+        training, and troubleshooting of the CNN architectures. Abainza supported the computational <br>
+        requirements, including access to GPU resources essential for model iteration. Casino supervised the <br>
+        correctness and quality of the testing videos used in evaluation, ensuring that samples adhered to the <br>
+        expected input specifications. Culanggo refined and formalized the documentation, ensuring <br>
+        coherence across phases and correctly integrating insights that linked dataset limitations with model <br>
+        behavior. <br>
+        Given the divergence between controlled dataset performance and real-world evaluation, the group is <br>
+        currently determining whether the problem arises from the limitations of the original training dataset <br>
+        or from the preprocessing pipeline applied to the testing videos. This analysis is ongoing. By next <br>
+        week, the group expects to establish whether a new dataset is required, whether the preprocessing <br>
+        workflow must be revised, or whether both components must be restructured to support models that <br>
+        generalize effectively beyond the static conditions of the Kaggle dataset. <br>
+         <br>
+         <br>
+         <br>
+        </div>
+    </div>
+</body>
+</html>

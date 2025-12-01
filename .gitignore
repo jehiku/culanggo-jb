@@ -3,3 +3,27 @@ venv/
 
 # Jupyter Book build output
 book/_build/
+_build/
+
+# Large data files (MNIST datasets, model files)
+book/labs/data/
+book/labs/*.pth
+book/lectures/lesson6/data/
+book/lectures/lesson6/model/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Excluded folders (not used in book)
+book/group-activities/

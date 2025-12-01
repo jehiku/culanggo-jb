@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Phase 2] Narrative Report _ Final Project</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .page {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            padding: 20px;
+            background: white;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>[Phase 2] Narrative Report _ Final Project</h1>
+    <div class="page">
+        <h2>Page 1</h2>
+        <div>Narrative Report | [Phase 2] Final Project​<br>
+        By: Kein Jake A. Culanggo <br>
+        This phase centered on gathering and preparing the data required for developing and testing <br>
+        the ASL recognition system. Two main datasets were assembled: a static image dataset for model <br>
+        training and a custom video dataset for initial testing and validation of data suitability. <br>
+        The primary training dataset was sourced from Kaggle, which contained labeled images of American <br>
+        Sign Language letters organized into class-specific folders. This structure allowed for consistent <br>
+        preprocessing and automatic label assignment. The dataset included minor class imbalances, such as <br>
+        the letter t having fewer samples, but these inconsistencies were small and manageable. Since the <br>
+        images came from varied lighting conditions and hand positions, they provided a diverse base for <br>
+        training and helped support generalization. <br>
+        Alongside the Kaggle dataset, the group created a supplemental video dataset intended for testing. <br>
+        Each member recorded short clips of themselves spelling their names in ASL, providing a realistic <br>
+        sample of how the system might be used in practice. These videos helped evaluate whether the <br>
+        training data aligned well with real-world samples. Although this process involved observing how the <br>
+        system responded to the recorded gestures, it was conducted only to check the suitability of our <br>
+        collected data. It was not part of Phase 3 model experimentation. This early validation was necessary <br>
+        because even if a dataset performs well on paper, it may not translate effectively to real-life input. <br>
+        The team then observed that the initial recordings did not match well with the visual characteristics of <br>
+        the Kaggle images. This led us to revisit how the videos were captured. We repeated recordings using <br>
+        clearer backgrounds and minimized arm visibility, since many images in the Kaggle dataset showed <br>
+        only the hand. These adjustments were made to ensure that the testing data was consistent and <br>
+        properly aligned with the visual patterns learned during training. This process confirmed that dataset <br>
+        characteristics played a significant role in model performance, which guided our decision to explore <br>
+        additional datasets later on. <br>
+        Once the datasets were finalized, a standard preprocessing pipeline was applied. All images and <br>
+        extracted video frames were converted to a consistent size and format to ensure compatibility with the <br>
+        models to be used in the next phase. Frames from the video recordings were extracted at a fixed rate <br>
+        and processed in the same manner as the training images, allowing both datasets to share a uniform <br>
+        structure. Labeling was handled automatically through directory organization, enabling reproducible <br>
+        and efficient preparation. <br>
+        Throughout this process, individual team roles supported the data pipeline. Dela Cruz handled the <br>
+        implementation of preprocessing procedures and ensured that the datasets followed a consistent <br>
+        structure. Abainza provided equipment and assisted with GPU requirements needed for data <br>
+        preparation tasks. Casino oversaw the correctness of the video recordings and ensured that the testing <br>
+        samples followed the intended guidelines. I contributed by monitoring the coherence between the <br>
+        training and testing datasets, participating in the recording process, and refining documentation to <br>
+        maintain a clear and organized report of the procedures. <br>
+        Overall, Phase 2 established a complete and well-structured data foundation for the project. The <br>
+        combination of standardized static images and carefully prepared video samples ensured that the <br>
+        </div>
+    </div>
+    <div class="page">
+        <h2>Page 2</h2>
+        <div>following phase would begin with datasets that were clean, organized, and suitable for systematic <br>
+        experimentation. <br>
+         <br>
+         <br>
+        </div>
+    </div>
+</body>
+</html>

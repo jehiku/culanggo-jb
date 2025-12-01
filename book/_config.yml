@@ -2,14 +2,20 @@
 # Learn more at https://jupyterbook.org/customize/config.html
 
 title: My JupyterBook
-author: Dane Casey C Casino
-logo: logo.png
+author: Kein Jake Culanggo
+logo: kein logo.png
 
-# Force re-execution of notebooks on each build.
+# Use frozen notebooks - display saved outputs without re-executing
 # See https://jupyterbook.org/content/execute.html
 execute:
-  execute_notebooks: force
+  execute_notebooks: off  # Changed from 'force' to 'off' for frozen notebooks
   timeout: -1
+
+# Exclude notebooks that don't use deeplearning_env kernel
+# This prevents build failures if notebooks are referenced elsewhere
+exclude_patterns:
+  - "Blog_Post/homework_201.ipynb"
+  - "group-activities/**"  # Exclude entire group-activities folder
 
 # Define the name of the latex output file for PDF builds
 latex:
@@ -20,15 +26,19 @@ latex:
 bibtex_bibfiles:
   - references.bib
 
+# Enable HTML in markdown (for PDF embedding)
+myst_enable_extensions:
+  - html_image
+
 # Information about where the book exists on the web
 repository:
-  url: https://github.com/Danecash/my-jupyter-book  # ← Change to YOUR repository
-  path_to_book: book  # ← Change from 'docs' to 'book'
-  branch: main  # ← Change from 'master' to 'main'
+  url: https://github.com/jehiku/culanggo-jb
+  path_to_book: book
+  branch: main
 
 # Add GitHub buttons to your book
 # See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
 html:
-  baseurl: /my-jupyter-book  # ← ADD THIS LINE - must match your repository name
+  baseurl: /culanggo-jb
   use_issues_button: true
   use_repository_button: true
