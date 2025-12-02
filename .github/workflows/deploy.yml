@@ -32,9 +32,40 @@ jobs:
       - name: Check Jupyter Book version
         run: jupyter-book --version
 
+      - name: Verify book structure
+        run: |
+          echo "Verifying book directory structure..."
+          if [ ! -d "book" ]; then
+            echo "ERROR: book directory does not exist!"
+            exit 1
+          fi
+          if [ ! -f "book/_config.yml" ]; then
+            echo "ERROR: book/_config.yml does not exist!"
+            exit 1
+          fi
+          if [ ! -f "book/_toc.yml" ]; then
+            echo "ERROR: book/_toc.yml does not exist!"
+            exit 1
+          fi
+          echo "Book structure verified ✓"
+
       - name: Build the book
         run: |
-          jupyter-book build book
+          echo "Current directory:"
+          pwd
+          echo "Contents of current directory:"
+          ls -la
+          echo "Contents of book directory:"
+          ls -la book/ || echo "book directory not found"
+          echo "Checking for config files:"
+          ls -la book/_config.yml book/_toc.yml || echo "Config files missing"
+          echo "Starting build..."
+          jupyter-book build book --verbose 2>&1 || {
+            echo "Build failed with exit code $?"
+            echo "Checking if _build directory was created:"
+            ls -la book/_build/ 2>/dev/null || echo "No _build directory found"
+            exit 1
+          }
           echo "Build completed. Checking output..."
           ls -la book/_build/ || echo "No _build directory found"
           ls -la book/_build/html/ || echo "No html directory found in _build"
