@@ -1,0 +1,614 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Laboratory Task 1 &#8212; My JupyterBook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'labs/DL-Lab1';</script>
+    <link rel="canonical" href="/culanggo-jb/labs/DL-Lab1.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Laboratory Task 2" href="DL-Lab2.html" />
+    <link rel="prev" title="Lecture 6 - Training CNN Model using MNIST Dataset" href="../lectures/lesson6/lesson6.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/kein logo.png" class="logo__image only-light" alt="My JupyterBook - Home"/>
+    <script>document.write(`<img src="../_static/kein logo.png" class="logo__image only-dark" alt="My JupyterBook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    About Me
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lesson1/lesson1.html">Lecture 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lesson2/lesson2.html">Lecture 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lesson3/lesson3.html">Lecture 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lesson4/lesson4.html">Lecture 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lesson5/lesson5.html">Lecture 5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lesson6/lesson6.html">Lecture 6</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>Laboratory Task 1</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="DL-Lab2.html"><strong>Laboratory Task 2</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="DL-Lab3.html"><strong>Laboratory Task 3</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="DL-Lab4.html"><strong>Laboratory Task 4</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="DL-Lab5.html"><strong>Laboratory Task 5</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="DL-Lab6.html"><strong>Laboratory Task 6</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="DL-Lab201.html"><strong>Laboratory Task 201</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Homework201.html">Homework 201</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Narrative Reports</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../narrative-reports/phase1.html">Phase 1: Narrative Report - Final Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../narrative-reports/phase2.html">Phase 2: Narrative Report - Final Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../narrative-reports/phase3.html">Phase 3: Narrative Report - Final Project</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/jehiku/culanggo-jb" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/jehiku/culanggo-jb/issues/new?title=Issue%20on%20page%20%2Flabs/DL-Lab1.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/labs/DL-Lab1.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Laboratory Task 1</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ds413-deep-learning"><strong>DS413 | Deep Learning</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#foundational-concept-of-deep-learning"><strong>Foundational Concept of Deep Learning</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-scenario"><strong>Example Scenario:</strong></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="laboratory-task-1">
+<h1><strong>Laboratory Task 1</strong><a class="headerlink" href="#laboratory-task-1" title="Link to this heading">#</a></h1>
+<hr class="docutils" />
+<section id="ds413-deep-learning">
+<h2><strong>DS413 | Deep Learning</strong><a class="headerlink" href="#ds413-deep-learning" title="Link to this heading">#</a></h2>
+<section id="foundational-concept-of-deep-learning">
+<h3><strong>Foundational Concept of Deep Learning</strong><a class="headerlink" href="#foundational-concept-of-deep-learning" title="Link to this heading">#</a></h3>
+<div style="text-align: justify;">
+Understanding the four types of analytics is crucial for mastering artificial intelligence (AI). Descriptive analytics lays the groundwork by summarizing historical data, providing insights into past trends essential for building predictive models in AI. Diagnostic analytics goes deeper, uncovering the reasons behind trends, which is fundamental in training AI algorithms to recognize patterns and anomalies effectively. Predictive analytics plays a pivotal role by forecasting future outcomes based on historical data, a capability vital for AI systems to make informed decisions and projections. Finally, prescriptive analytics not only predicts future scenarios but also prescribes optimal actions to achieve desired outcomes, guiding AI systems in making proactive and strategic decisions. Together, these analytics types form the backbone of AI learning, equipping developers and researchers with the tools to enhance AI capabilities, optimize performance, and drive innovation across various domains.
+</div><div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Type of Analytics</p></th>
+<th class="head text-left"><p>Question/Focus</p></th>
+<th class="head text-left"><p>Key Characteristics</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>Descriptive</strong></p></td>
+<td class="text-left"><p>What’s happening in my business?</p></td>
+<td class="text-left"><p>Comprehensive, accurate and live data; Effective visualisation</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Diagnostic</strong></p></td>
+<td class="text-left"><p>Why is it happening?</p></td>
+<td class="text-left"><p>Ability to drill down to the root-cause; Ability to isolate all confounding information</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Predictive</strong></p></td>
+<td class="text-left"><p>What’s likely to happen?</p></td>
+<td class="text-left"><p>Business strategies have remained fairly consistent over time; Historical patterns being used to predict specific outcomes using algorithms; Decisions are automated using algorithms and technology</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Prescriptive</strong></p></td>
+<td class="text-left"><p>What do I need to do?</p></td>
+<td class="text-left"><p>Recommended actions and strategies based on champion / challenger testing strategy outcomes; Applying advanced analytical techniques to make specific recommendations</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="example-scenario">
+<h3><strong>Example Scenario:</strong><a class="headerlink" href="#example-scenario" title="Link to this heading">#</a></h3>
+<p><strong>1. Descriptive:</strong> How many infected cases since last week?</p>
+<p><strong>2. Diagnostic:</strong> What factor affects the demand of AstroJR’s COVID19 vaccine?</p>
+<p><strong>3. Predictive:</strong> How many deaths next week?</p>
+<p><strong>4. Prescriptive:</strong> If the number of cases will increase next week, how many hospital staff should be here to adequately treat the influx of patients?</p>
+<p>To address the key questions identified by the analytics team, historical data on deaths will be crucial. By analyzing this time-series data, the team can leverage statistical modeling techniques to uncover patterns and trends that will enable them to generate accurate forecasts. The inclusion of a time variable in the inquiry makes the use of these statistical models essential, as they are specifically designed to handle and extract insights from data with a temporal component. This predictive modeling process will also introduce the team to the potential applications of Artificial Intelligence (AI) in this domain.</p>
+<div style="border: 6px solid #4F6D38; padding: 15px; background-color: transparent; border-radius: 5px;">
+    <h3><strong>Laboratory Task 1</strong></h3>
+    <p><strong>Instruction:</strong> From the example scenario above, create additional two inquiries for each type of data analytics.</p>
+                                                
+    <h4><strong>1. Descriptive:</strong></h4>
+    <ul>
+        <li>Which communities experienced the longest wait times between vaccine registration and administration, and how has this changed over the past month?</li>
+        <li>What percentage of vaccines administered were first doses versus booster doses across different socioeconomic groups?</li>
+    </ul>
+    <h4><strong>3. Diagnostic:</strong></h4>
+    <ul>
+        <li>What caused regional differences in vaccine hesitancy despite similar awareness campaigns—cultural, social, or logistical factors?</li>
+        <li>Why did certain distribution hubs report higher vaccine spoilage rates compared to others, and how does storage infrastructure contribute?</li>
+    </ul>
+    <h4><strong>4. Predictive:</strong></h4>
+    <ul>
+        <li>Which urban areas are likely to see spikes in breakthrough infections based on current vaccination coverage and virus variants?</li>
+        <li>How will changes in public mobility patterns (holidays, events, travel) affect regional vaccine demand and infection rates in the next month?</li>
+    </ul>
+    <h4><strong>5. Prescriptive:</strong></h4>
+    <ul>
+        <li>If vaccine hesitancy rises in low-income areas, what targeted communication strategies and community partnerships should be implemented to maximize uptake?</li>
+        <li>Given predicted supply chain bottlenecks, how should vaccine shipment schedules be optimized to prevent wastage and ensure timely delivery to high-risk regions?</li>
+    </ul>
+</div></section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./labs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../lectures/lesson6/lesson6.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Lecture 6 - Training CNN Model using MNIST Dataset</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="DL-Lab2.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><strong>Laboratory Task 2</strong></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ds413-deep-learning"><strong>DS413 | Deep Learning</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#foundational-concept-of-deep-learning"><strong>Foundational Concept of Deep Learning</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-scenario"><strong>Example Scenario:</strong></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kein Jake Culanggo
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
