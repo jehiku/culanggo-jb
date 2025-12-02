@@ -1,0 +1,912 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>When Learning Rates Decay: What Really Happens Inside a CNN &#8212; My JupyterBook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'labs/Homework201';</script>
+    <link rel="canonical" href="/culanggo-jb/labs/Homework201.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Phase 1: Narrative Report - Final Project" href="../narrative-reports/phase1.html" />
+    <link rel="prev" title="Laboratory Task 201" href="DL-Lab201.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/kein logo.png" class="logo__image only-light" alt="My JupyterBook - Home"/>
+    <script>document.write(`<img src="../_static/kein logo.png" class="logo__image only-dark" alt="My JupyterBook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    About Me
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lesson1/lesson1.html">Lecture 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lesson2/lesson2.html">Lecture 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lesson3/lesson3.html">Lecture 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lesson4/lesson4.html">Lecture 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lesson5/lesson5.html">Lecture 5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lesson6/lesson6.html">Lecture 6</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="DL-Lab1.html"><strong>Laboratory Task 1</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="DL-Lab2.html"><strong>Laboratory Task 2</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="DL-Lab3.html"><strong>Laboratory Task 3</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="DL-Lab4.html"><strong>Laboratory Task 4</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="DL-Lab5.html"><strong>Laboratory Task 5</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="DL-Lab6.html"><strong>Laboratory Task 6</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="DL-Lab201.html"><strong>Laboratory Task 201</strong></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Homework 201</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Narrative Reports</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../narrative-reports/phase1.html">Phase 1: Narrative Report - Final Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../narrative-reports/phase2.html">Phase 2: Narrative Report - Final Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../narrative-reports/phase3.html">Phase 3: Narrative Report - Final Project</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/jehiku/culanggo-jb" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/jehiku/culanggo-jb/issues/new?title=Issue%20on%20page%20%2Flabs/Homework201.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/labs/Homework201.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>When Learning Rates Decay: What Really Happens Inside a CNN</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ds413-elective-4-deep-learning"><strong>DS413 | Elective 4: Deep Learning</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction"><strong>Introduction</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-learning-rate-scheduling"><strong>What is Learning Rate Scheduling?</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#technical-explanation">• <strong>Technical Explanation</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#intuitive-analogy">• <strong>Intuitive Analogy</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-setup"><strong>Experiment Setup</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-small-cnn">• <strong>Model: Small CNN</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-pipeline"><strong>Training Pipeline</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results-and-analysis"><strong>Results and Analysis</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-1-learning-rate-0-1"><strong>Plot 1. Learning Rate = 0.1</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#technical-interpretation">• <strong>Technical Interpretation</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#intuitive-explanation">• <strong>Intuitive Explanation</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-2-learning-rate-0-01"><strong>Plot 2. Learning Rate = 0.01</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">• <strong>Technical Interpretation</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">• <strong>Intuitive Explanation</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-3-learning-rate-0-001"><strong>Plot 3. Learning Rate = 0.001</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">• <strong>Technical Interpretation</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">• <strong>Intuitive Explanation</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-4-learning-rate-0-0001"><strong>Plot 4. Learning Rate = 0.0001</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">• <strong>Technical Interpretation</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">• <strong>Intuitive Explanation</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-these-results-tell-us"><strong>What These Results Tell Us</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-learning-rate-scheduling-helps"><strong>Why Learning Rate Scheduling Helps</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#technical-view">• <strong>Technical View</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analogy">• <strong>Analogy</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion"><strong>Conclusion</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-low-learning-rate-0-0001-produced-the-best-model"><strong><code class="docutils literal notranslate"><span class="pre">Why</span> <span class="pre">Low</span> <span class="pre">Learning</span> <span class="pre">Rate</span> <span class="pre">(0.0001)</span> <span class="pre">Produced</span> <span class="pre">the</span> <span class="pre">Best</span> <span class="pre">Model</span></code></strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references"><strong>References</strong></a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="when-learning-rates-decay-what-really-happens-inside-a-cnn">
+<h1><strong>When Learning Rates Decay: What Really Happens Inside a CNN</strong><a class="headerlink" href="#when-learning-rates-decay-what-really-happens-inside-a-cnn" title="Link to this heading">#</a></h1>
+<section id="ds413-elective-4-deep-learning">
+<h2><strong>DS413 | Elective 4: Deep Learning</strong><a class="headerlink" href="#ds413-elective-4-deep-learning" title="Link to this heading">#</a></h2>
+<p>A Blog post by:</p>
+<p><strong>Kein Jake Culanggo</strong></p>
+</section>
+<hr class="docutils" />
+<section id="introduction">
+<h2><strong>Introduction</strong><a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>Training a neural network is fundamentally an optimization problem. The model must adjust its parameters to minimize a loss function, and the learning rate controls how large each update step is. Although simple on the surface, this single hyperparameter profoundly affects convergence, stability, and generalization. <em>Goodfellow, Bengio, and Courville (2016)</em> describe the learning rate as the most influential hyperparameter in deep learning.</p>
+<p><strong>This blog explores how learning rate values shape the behavior of a convolutional neural network (CNN) trained on MNIST.</strong></p>
+<p>By examining several fixed learning rates, we establish why learning rate scheduling is essential for efficient training.</p>
+<p><a href="https://ibb.co/gb5hBxZ7"><img src="https://i.ibb.co/XfhMvqx4/image.png" alt="image" border="0"></a></p>
+</section>
+<hr class="docutils" />
+<section id="what-is-learning-rate-scheduling">
+<h2><strong>What is Learning Rate Scheduling?</strong><a class="headerlink" href="#what-is-learning-rate-scheduling" title="Link to this heading">#</a></h2>
+<section id="technical-explanation">
+<h3>• <strong>Technical Explanation</strong><a class="headerlink" href="#technical-explanation" title="Link to this heading">#</a></h3>
+<p>In gradient-based optimization, parameters (\theta) are updated according to:</p>
+<br>
+<div class="math notranslate nohighlight">
+\[
+\theta_{t+1} = \theta_t - \eta_t \nabla_\theta L(\theta_t)
+\]</div>
+<p>where (\eta_t) is the learning rate at step (t).</p>
+<br>
+<p>A learning rate schedule modifies ( \eta_t ) across training epochs. The intuition is simple:</p>
+<ul class="simple">
+<li><p>Early training benefits from larger steps for faster exploration.</p></li>
+<li><p>Later training requires smaller steps for stable convergence.</p></li>
+</ul>
+<p>This behavior has been supported by studies such as Smith (2017) and Loshchilov &amp; Hutter (2019), which show improved generalization and faster convergence when learning rates are varied dynamically.</p>
+<br>
+</section>
+<section id="intuitive-analogy">
+<h3>• <strong>Intuitive Analogy</strong><a class="headerlink" href="#intuitive-analogy" title="Link to this heading">#</a></h3>
+<p>Imagine learning how to sketch. Early in the drawing, broad strokes help form the structure quickly. As details emerge, smaller and more controlled strokes refine the image. If the strokes are always too big, the drawing becomes messy; if always too small, progress is slow.</p>
+<p>Learning rate scheduling follows the same logic.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="experiment-setup">
+<h2><strong>Experiment Setup</strong><a class="headerlink" href="#experiment-setup" title="Link to this heading">#</a></h2>
+<p>This experiment tests four fixed learning rates before any scheduling is applied. This baseline helps us understand the behavior that schedulers aim to improve.</p>
+<section id="model-small-cnn">
+<h3>• <strong>Model: Small CNN</strong><a class="headerlink" href="#model-small-cnn" title="Link to this heading">#</a></h3>
+<p>We use a lightweight convolutional neural network appropriate for MNIST classification. Its simplicity ensures training is fast while still sensitive to learning rate behavior.</p>
+<p><strong>class SimpleCNN(nn.Module):</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>def __init__(self):
+    super(SimpleCNN, self).__init__()
+    self.conv_layer = nn.Sequential(
+        nn.Conv2d(1, 8, kernel_size=3, padding=1),
+        nn.ReLU(),
+        nn.MaxPool2d(2),
+        nn.Conv2d(8, 16, kernel_size=3, padding=1),
+        nn.ReLU(),
+        nn.MaxPool2d(2)
+    )
+    self.fc_layer = nn.Sequential(
+        nn.Flatten(),
+        nn.Linear(16 * 7 * 7, 128),
+        nn.ReLU(),
+        nn.Linear(128, 10)
+    )
+
+def forward(self, x):
+    x = self.conv_layer(x)
+    return self.fc_layer(x)
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="training-pipeline">
+<h2><strong>Training Pipeline</strong><a class="headerlink" href="#training-pipeline" title="Link to this heading">#</a></h2>
+<p>To isolate the effect of learning rates, each training run uses:</p>
+<ul class="simple">
+<li><p><strong>Dataset:</strong> MNIST</p></li>
+<li><p><strong>Optimizer:</strong> SGD</p></li>
+<li><p><strong>Loss:</strong> CrossEntropy</p></li>
+<li><p><strong>Batch size:</strong> 64</p></li>
+<li><p><strong>Epochs:</strong> 20</p></li>
+<li><p><strong>Learning rates tested:</strong></p>
+<ul>
+<li><p>0.1</p></li>
+<li><p>0.01</p></li>
+<li><p>0.001</p></li>
+<li><p>0.0001</p></li>
+</ul>
+</li>
+</ul>
+<p>The structure remains constant across experiments, allowing learning rate differences to emerge clearly.</p>
+<p><strong>def train_model(model, train_loader, criterion, lr, epochs=20):</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>optimizer = optim.SGD(model.parameters(), lr=lr)
+losses = []
+accuracies = []
+
+for epoch in range(epochs):
+
+    model.train()
+    running_loss = 0
+
+    for images, labels in train_loader:
+
+        optimizer.zero_grad()
+        outputs = model(images)
+        loss = criterion(outputs, labels)
+        loss.backward()
+        optimizer.step()
+        running_loss += loss.item()
+
+    avg_loss = running_loss / len(train_loader)
+    acc = evaluate_model(model)
+    
+    losses.append(avg_loss)
+    accuracies.append(acc)
+
+return losses, accuracies
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="results-and-analysis">
+<h2><strong>Results and Analysis</strong><a class="headerlink" href="#results-and-analysis" title="Link to this heading">#</a></h2>
+<p>Each of the following discussions corresponds to the plots generated for the different learning rates. Insert each plot beneath its respective section.</p>
+<section id="plot-1-learning-rate-0-1">
+<h3><strong>Plot 1. Learning Rate = 0.1</strong><a class="headerlink" href="#plot-1-learning-rate-0-1" title="Link to this heading">#</a></h3>
+<section id="technical-interpretation">
+<h4>• <strong>Technical Interpretation</strong><a class="headerlink" href="#technical-interpretation" title="Link to this heading">#</a></h4>
+<p>The loss curve fluctuates heavily, indicating instability. The learning rate is too large, causing the optimizer to overshoot minima repeatedly. Accuracy rises early but fails to stabilize, revealing convergence issues.</p>
+<p>This aligns with Goodfellow et al. (2016), who highlight how excessively large learning rates disrupt optimization.</p>
+</section>
+<section id="intuitive-explanation">
+<h4>• <strong>Intuitive Explanation</strong><a class="headerlink" href="#intuitive-explanation" title="Link to this heading">#</a></h4>
+<p>The model is “running too fast.”<br />
+It keeps overshooting and stumbling, making it impossible to settle on a good solution.</p>
+<p><a href="https://ibb.co/HfjwgXs7"><img src="https://i.ibb.co/G4qYPFL7/plot1-training-loss.png" alt="plot1-training-loss" border="0"></a></p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="plot-2-learning-rate-0-01">
+<h3><strong>Plot 2. Learning Rate = 0.01</strong><a class="headerlink" href="#plot-2-learning-rate-0-01" title="Link to this heading">#</a></h3>
+<section id="id1">
+<h4>• <strong>Technical Interpretation</strong><a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
+<p>This learning rate produces stable, consistent training. Loss decreases smoothly, and accuracy improves rapidly. This setting achieves the best balance between speed and stability.</p>
+</section>
+<section id="id2">
+<h4>• <strong>Intuitive Explanation</strong><a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
+<p>This is the “Goldilocks zone.”<br />
+Not too fast, not too slow. Just right for learning efficiently.</p>
+<p><a href="https://ibb.co/zHjqMmh4"><img src="https://i.ibb.co/k6kN7GgS/plot2-validation-loss.png" alt="plot2-validation-loss" border="0"></a></p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="plot-3-learning-rate-0-001">
+<h3><strong>Plot 3. Learning Rate = 0.001</strong><a class="headerlink" href="#plot-3-learning-rate-0-001" title="Link to this heading">#</a></h3>
+<section id="id3">
+<h4>• <strong>Technical Interpretation</strong><a class="headerlink" href="#id3" title="Link to this heading">#</a></h4>
+<p>Training is stable but slow. Loss decreases gradually, and accuracy improves but not at the same rate as with 0.01. Underfitting occurs within 20 epochs.</p>
+<p>Bengio (2012) notes that overly small learning rates underutilize gradient information, slowing convergence.</p>
+</section>
+<section id="id4">
+<h4>• <strong>Intuitive Explanation</strong><a class="headerlink" href="#id4" title="Link to this heading">#</a></h4>
+<p>The model is “walking carefully.”<br />
+It avoids mistakes but moves too slowly to reach strong performance in time.</p>
+<p><a href="https://ibb.co/35vqTbbZ"><img src="https://i.ibb.co/4w2GFLLr/plot3-training-accuracy.png" alt="plot3-training-accuracy" border="0"></a></p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="plot-4-learning-rate-0-0001">
+<h3><strong>Plot 4. Learning Rate = 0.0001</strong><a class="headerlink" href="#plot-4-learning-rate-0-0001" title="Link to this heading">#</a></h3>
+<section id="id5">
+<h4>• <strong>Technical Interpretation</strong><a class="headerlink" href="#id5" title="Link to this heading">#</a></h4>
+<p>The model barely learns. Loss decreases minimally, and accuracy plateaus almost immediately. The learning rate is too small for meaningful progress.</p>
+</section>
+<section id="id6">
+<h4>• <strong>Intuitive Explanation</strong><a class="headerlink" href="#id6" title="Link to this heading">#</a></h4>
+<p>The model is “moving in centimeters on a journey that needs meters.”<br />
+It technically improves, but too slowly to matter within the training window.</p>
+<p><a href="https://ibb.co/cSLv2nMQ"><img src="https://i.ibb.co/KpwGVvRW/plot4-validation-accuracy.png" alt="plot4-validation-accuracy" border="0"></a></p>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="what-these-results-tell-us">
+<h2><strong>What These Results Tell Us</strong><a class="headerlink" href="#what-these-results-tell-us" title="Link to this heading">#</a></h2>
+<p>Across the four runs:</p>
+<ol class="arabic simple">
+<li><p>Large learning rates destabilize training.</p></li>
+<li><p>Extremely small learning rates stall learning.</p></li>
+<li><p>Middle-range values (0.01 and 0.001) produce balanced behavior.</p></li>
+<li><p>No single fixed learning rate works best for the entire training process.</p></li>
+</ol>
+<p>This is precisely why learning rate scheduling is widely adopted.</p>
+</section>
+<hr class="docutils" />
+<section id="why-learning-rate-scheduling-helps">
+<h2><strong>Why Learning Rate Scheduling Helps</strong><a class="headerlink" href="#why-learning-rate-scheduling-helps" title="Link to this heading">#</a></h2>
+<section id="technical-view">
+<h3>• <strong>Technical View</strong><a class="headerlink" href="#technical-view" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Early training benefits from larger updates to explore the loss landscape.</p></li>
+<li><p>Later training requires smaller steps for fine-grained adjustments.</p></li>
+<li><p>Schedulers automate this shift, improving convergence and generalization.</p></li>
+</ul>
+</section>
+<section id="analogy">
+<h3>• <strong>Analogy</strong><a class="headerlink" href="#analogy" title="Link to this heading">#</a></h3>
+<p>Learning is like hiking:</p>
+<ul class="simple">
+<li><p>Large steps help at the beginning.</p></li>
+<li><p>Smaller, careful steps matter near a cliff edge.</p></li>
+</ul>
+<p>Schedulers manage this transition automatically.</p>
+<p><a href="https://imgbb.com/"><img src="https://i.ibb.co/YBrXBS71/image.png" alt="image" border="0"></a></p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="conclusion">
+<h2><strong>Conclusion</strong><a class="headerlink" href="#conclusion" title="Link to this heading">#</a></h2>
+<p>This experiment shows how dramatically learning rates influence CNN training dynamics. High rates destabilize optimization, extremely low rates stall it, and optimal rates produce smooth and efficient learning.</p>
+<p>Learning rate scheduling addresses this imbalance by adjusting the learning rate throughout training, ensuring fast exploration early and precise refinement later.</p>
+<p>This foundational experiment prepares the ground for more advanced methods such as cosine annealing, warm-up scheduling, and cyclical learning rates.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Learning Rate Category</p></th>
+<th class="head"><p>Learning Rate</p></th>
+<th class="head"><p>Final Training Loss</p></th>
+<th class="head"><p>Final Validation Loss</p></th>
+<th class="head"><p>Final Validation Accuracy</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Too High (Exploding)</p></td>
+<td><p>0.1</p></td>
+<td><p>1.8393</p></td>
+<td><p>0.7631</p></td>
+<td><p>80.87%</p></td>
+</tr>
+<tr class="row-odd"><td><p>High</p></td>
+<td><p>0.01</p></td>
+<td><p>3.2777</p></td>
+<td><p>2.6486</p></td>
+<td><p>23.04%</p></td>
+</tr>
+<tr class="row-even"><td><p>Just Right</p></td>
+<td><p>0.001</p></td>
+<td><p>0.0300</p></td>
+<td><p>0.0052</p></td>
+<td><p>99.78%</p></td>
+</tr>
+<tr class="row-odd"><td><p>Low</p></td>
+<td><p>0.0001</p></td>
+<td><p>0.0083</p></td>
+<td><p>0.0007</p></td>
+<td><p>100.00%</p></td>
+</tr>
+<tr class="row-even"><td><p>Too Low (Crawling)</p></td>
+<td><p>0.00001</p></td>
+<td><p>0.1563</p></td>
+<td><p>0.0617</p></td>
+<td><p>100.00%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="why-low-learning-rate-0-0001-produced-the-best-model">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">Why</span> <span class="pre">Low</span> <span class="pre">Learning</span> <span class="pre">Rate</span> <span class="pre">(0.0001)</span> <span class="pre">Produced</span> <span class="pre">the</span> <span class="pre">Best</span> <span class="pre">Model</span></code></strong><a class="headerlink" href="#why-low-learning-rate-0-0001-produced-the-best-model" title="Link to this heading">#</a></h3>
+<p>The learning rate controls how much the model updates its weights during each optimization step. If the learning rate is too high (e.g., 0.1 or 0.01), the model can overshoot the optimal minima in the loss landscape, leading to unstable training and poor validation accuracy. Conversely, if the learning rate is too low (e.g., 1e-5), training progresses extremely slowly, which can sometimes lead to overfitting or wasted computation.</p>
+<p>In our experiments, the low learning rate of 0.0001 struck the optimal balance. It allowed the model to converge smoothly without overshooting, achieving 100% validation accuracy with minimal training and validation loss. This indicates the model not only fit the training data effectively but also generalized very well to unseen data, avoiding the instability observed in higher learning rates and the slow convergence seen with the very lowest rate.</p>
+<p>Think of training a neural network like trying to find the bottom of a valley while walking blindfolded. A high learning rate is like taking giant leaps—you might overshoot the bottom and even bounce back up the hill. A very low learning rate is like taking tiny baby steps—you will eventually reach the bottom, but it takes a very long time. The low learning rate of 0.0001 was just right: small enough to step steadily toward the valley floor without overshooting, but large enough to get there efficiently. This is why it produced the most accurate and stable model.</p>
+</section>
+</section>
+<section id="references">
+<h2><strong>References</strong><a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Goodfellow, I., Bengio, Y., &amp; Courville, A. (2016). <em>Deep Learning</em>. MIT Press.</p></li>
+<li><p>Smith, L. N. (2017). Cyclical Learning Rates for Training Neural Networks.</p></li>
+<li><p>Loshchilov, I., &amp; Hutter, F. (2019). Decoupled Weight Decay Regularization.</p></li>
+<li><p>Bengio, Y. (2012). Practical Recommendations for Gradient-Based Training of Deep Architectures.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./labs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="DL-Lab201.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><strong>Laboratory Task 201</strong></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../narrative-reports/phase1.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Phase 1: Narrative Report - Final Project</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ds413-elective-4-deep-learning"><strong>DS413 | Elective 4: Deep Learning</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction"><strong>Introduction</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-learning-rate-scheduling"><strong>What is Learning Rate Scheduling?</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#technical-explanation">• <strong>Technical Explanation</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#intuitive-analogy">• <strong>Intuitive Analogy</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-setup"><strong>Experiment Setup</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-small-cnn">• <strong>Model: Small CNN</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-pipeline"><strong>Training Pipeline</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results-and-analysis"><strong>Results and Analysis</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-1-learning-rate-0-1"><strong>Plot 1. Learning Rate = 0.1</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#technical-interpretation">• <strong>Technical Interpretation</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#intuitive-explanation">• <strong>Intuitive Explanation</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-2-learning-rate-0-01"><strong>Plot 2. Learning Rate = 0.01</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">• <strong>Technical Interpretation</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">• <strong>Intuitive Explanation</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-3-learning-rate-0-001"><strong>Plot 3. Learning Rate = 0.001</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">• <strong>Technical Interpretation</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">• <strong>Intuitive Explanation</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-4-learning-rate-0-0001"><strong>Plot 4. Learning Rate = 0.0001</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">• <strong>Technical Interpretation</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">• <strong>Intuitive Explanation</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-these-results-tell-us"><strong>What These Results Tell Us</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-learning-rate-scheduling-helps"><strong>Why Learning Rate Scheduling Helps</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#technical-view">• <strong>Technical View</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analogy">• <strong>Analogy</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion"><strong>Conclusion</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-low-learning-rate-0-0001-produced-the-best-model"><strong><code class="docutils literal notranslate"><span class="pre">Why</span> <span class="pre">Low</span> <span class="pre">Learning</span> <span class="pre">Rate</span> <span class="pre">(0.0001)</span> <span class="pre">Produced</span> <span class="pre">the</span> <span class="pre">Best</span> <span class="pre">Model</span></code></strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references"><strong>References</strong></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kein Jake Culanggo
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

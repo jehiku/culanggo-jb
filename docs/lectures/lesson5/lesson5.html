@@ -1,0 +1,966 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Lecture 5 - Applications of Deep Learning &#8212; My JupyterBook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/lesson5/lesson5';</script>
+    <link rel="canonical" href="/culanggo-jb/lectures/lesson5/lesson5.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Lecture 6 - Training CNN Model using MNIST Dataset" href="../lesson6/lesson6.html" />
+    <link rel="prev" title="Lecture 4 - Main Types of Deep Learning Neural Networks" href="../lesson4/lesson4.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/kein logo.png" class="logo__image only-light" alt="My JupyterBook - Home"/>
+    <script>document.write(`<img src="../../_static/kein logo.png" class="logo__image only-dark" alt="My JupyterBook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    About Me
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../lesson1/lesson1.html">Lecture 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lesson2/lesson2.html">Lecture 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lesson3/lesson3.html">Lecture 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lesson4/lesson4.html">Lecture 4</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Lecture 5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lesson6/lesson6.html">Lecture 6</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../labs/DL-Lab1.html"><strong>Laboratory Task 1</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../labs/DL-Lab2.html"><strong>Laboratory Task 2</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../labs/DL-Lab3.html"><strong>Laboratory Task 3</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../labs/DL-Lab4.html"><strong>Laboratory Task 4</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../labs/DL-Lab5.html"><strong>Laboratory Task 5</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../labs/DL-Lab6.html"><strong>Laboratory Task 6</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../labs/DL-Lab201.html"><strong>Laboratory Task 201</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../labs/Homework201.html">Homework 201</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Narrative Reports</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../narrative-reports/phase1.html">Phase 1: Narrative Report - Final Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../narrative-reports/phase2.html">Phase 2: Narrative Report - Final Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../narrative-reports/phase3.html">Phase 3: Narrative Report - Final Project</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/jehiku/culanggo-jb" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/jehiku/culanggo-jb/issues/new?title=Issue%20on%20page%20%2Flectures/lesson5/lesson5.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/lectures/lesson5/lesson5.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Lecture 5 - Applications of Deep Learning</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#group-activity">Group Activity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deliverables">Deliverables:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-study-content-outline">Case Study Content Outline:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-learning-in-computer-vision">Deep Learning in Computer Vision</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#image-data">Image Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convolutional-neural-network">Convolutional Neural Network</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-cnn">Why CNN?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convolution-layer">1. Convolution Layer</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-filters">A. Filters</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#b-padding">B. Padding</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c-strides">C. Strides</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#d-shape">D. Shape</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#max-average-pooling-layer">2. Max/Average Pooling Layer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#batchnorm-layer">3. BatchNorm Layer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dropout-layer">4. Dropout Layer</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="lecture-5-applications-of-deep-learning">
+<h1>Lecture 5 - Applications of Deep Learning<a class="headerlink" href="#lecture-5-applications-of-deep-learning" title="Link to this heading">#</a></h1>
+<p>Deep learning has revolutionized multitude of tasks, transforming industries through its unparalleled ability to process and understand complex data. From computer vision tasks such as image and video analysis to natural language processing (NLP), time series analysis, and recommendation systems, deep learning models have redefined what is possible in AI-driven applications. By leveraging deep neural networks with multiple layers of abstraction, these systems can autonomously learn patterns and features from vast datasets, enabling unprecedented levels of accuracy and efficiency in tasks that traditionally required human intervention. This transformative technology has not only optimized processes in fields like healthcare, finance, and retail but has also paved the way for new innovations in personalized services, predictive analytics, and interactive user experiences. As a result, deep learning stands at the forefront of AI advancements, continually expanding its reach and capabilities across diverse domains, driven by its capacity to handle and interpret a wide array of data types with remarkable precision.</p>
+<section id="group-activity">
+<h2>Group Activity<a class="headerlink" href="#group-activity" title="Link to this heading">#</a></h2>
+<p><strong>Instruction:</strong> Look for an advanced deep learning architecture or framework (e.g., LSTM, Transformers, Autoencoders, GANs, etc.) and study how it is implemented and applied in real-world problems. Your group will prepare a presentation explaining the chosen architecture/framework and a mini case study highlighting its application in a specific field. Follow the LNCS format for the mini case study.</p>
+<section id="deliverables">
+<h3>Deliverables:<a class="headerlink" href="#deliverables" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>A group presentation on the selected advanced deep learning architecture/framework and how it works.</p></li>
+<li><p>A mini case study report (LNCS format) about the application of the chosen deep learning approach in a particular domain.</p></li>
+</ol>
+</section>
+<section id="case-study-content-outline">
+<h3>Case Study Content Outline:<a class="headerlink" href="#case-study-content-outline" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Introduction</strong> (Contextual background and introduction of the field.)</p></li>
+<li><p><strong>Application of the Chosen DL Architecture</strong> (How is the architecture/framework applied in the selected field?)</p></li>
+<li><p><strong>Impact and Benefits</strong> (What advancements, improvements, or disruptions did this DL approach bring?)</p></li>
+<li><p><strong>Conclusion</strong></p></li>
+</ol>
+</section>
+</section>
+<section id="deep-learning-in-computer-vision">
+<h2>Deep Learning in Computer Vision<a class="headerlink" href="#deep-learning-in-computer-vision" title="Link to this heading">#</a></h2>
+<p>Deep learning has become a powerful technique for advancing computer vision capabilities. Deep learning algorithms, particularly convolutional neural networks (CNNs), excel at extracting relevant features from visual data and building complex predictive models (Geniusee, 2022).</p>
+<p>Deep learning is used extensively in various computer vision tasks. For object detection, deep learning models like YOLO and Faster R-CNN can simultaneously locate and classify multiple objects in an image (TechTarget, 2023). Semantic segmentation models based on fully convolutional networks (FCNs) and U-Nets can precisely delineate the boundaries of objects, enabling detailed scene understanding (<a class="reference external" href="http://Run.AI">Run.AI</a>, 2023). Deep learning also enables effective image classification, localization, pose estimation, image style transfer, colorization, reconstruction, and synthesis (Sciencedirect, 2021).</p>
+<p>The key advantage of deep learning for computer vision is its ability to automatically learn hierarchical visual features from large datasets, without the need for manual feature engineering (IBM, 2023). Deep neural networks can discover low-level features like edges and textures, and progressively build up to higher-level semantic concepts. This end-to-end learning approach has led to significant performance improvements across a wide range of computer vision applications.</p>
+<p>In this section, we will introduce the Convolutional Neural Network, also known as CNN or ConvNets, as a better way for dealing with image classification, detection, segmentation, computer vision, and other tasks involving image datasets. We will also learn the image data and its composition.</p>
+</section>
+<section id="image-data">
+<h2>Image Data<a class="headerlink" href="#image-data" title="Link to this heading">#</a></h2>
+<p>It is first important to define the input shape of an image, which will be (input channels, image height, image width). Let’s say given an image of 14 x 14 pixels = 196 features like this. Each data point is an array of numbers describing how dark each pixel is, where value range from 0 to 255. These values can be normalized ranging from 0 to 1.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">256</span><span class="p">,</span> <span class="p">(</span><span class="mi">250</span><span class="p">,</span><span class="mi">250</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/57c4dc9472487f665f212d0be71a37bea99390cad861e738494bf5bfe192998a.png" src="../../_images/57c4dc9472487f665f212d0be71a37bea99390cad861e738494bf5bfe192998a.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># reading an image file using matplotlib</span>
+<span class="n">hagrid</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;./d0277596-4b93-4d74-9afa-7ee5000e169f.jpg&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># accessing the first line from the top of the image</span>
+<span class="c1"># this image have three channels (r, g, b)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">hagrid</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">hagrid</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[185 172 163]
+ [185 172 163]
+ [184 171 162]
+ ...
+ [ 20  20  20]
+ [ 20  20  20]
+ [ 20  20  20]]
+(1536, 3)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Images are actually just n-dimensional arrays.</p>
+<p>There are multiple ways of displaying an image in python, one of which is by using the<code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot.imshow()</span></code> function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">hagrid</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/a6946d35950e48128ef4f90e3abc41bfb601fbfecaba0a7761f7070ace74ca6b.png" src="../../_images/a6946d35950e48128ef4f90e3abc41bfb601fbfecaba0a7761f7070ace74ca6b.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># accessing the height, width and the channel component of an image</span>
+<span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">hagrid</span><span class="o">.</span><span class="n">shape</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;height: </span><span class="si">{</span><span class="n">h</span><span class="si">}</span><span class="s2">, width: </span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="s2">, channel: </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>height: 1536, width: 1536, channel: 3
+</pre></div>
+</div>
+</div>
+</div>
+<p>An image data consists of the width and height of an image by pixel unit, another value that can be seen is the color channel of an image.</p>
+<p>In the context of images, a “channel” refers to a specific component of the image’s color information. Images are often composed of multiple channels, each representing different aspects of the image’s appearance or color. The most common image channel representations are:</p>
+<ul class="simple">
+<li><p>Grayscale (1-channel)</p></li>
+<li><p>RGB: Red-Green-Blue (3-channel)</p></li>
+<li><p>CMYK: Cyan-Magenta-Yellow-Key (4-channel)</p></li>
+<li><p>HSV: Hue-Saturation-Value (3-channel)</p></li>
+<li><p>RGBA: Red-Green-Blue-Alpha (4-channel)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># reading image file using opencv</span>
+<span class="c1"># pip install opencv-python</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;./d0277596-4b93-4d74-9afa-7ee5000e169f.jpg&quot;</span><span class="p">));</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/4f55a3d01d6f482897dde8644c396b238f5c645f86d190b81e0971b8c9f33e37.png" src="../../_images/4f55a3d01d6f482897dde8644c396b238f5c645f86d190b81e0971b8c9f33e37.png" />
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">NOTE:</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> resulting image follows an RGB format.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">open-cv</span></code> resulting image follows BGR format.</p></li>
+<li><p>When using <code class="docutils literal notranslate"><span class="pre">open-cv</span></code>, you can use its built-in <code class="docutils literal notranslate"><span class="pre">cvtColor()</span></code> class to convert the color of an image.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># cv2 image converted from BGR to RGB</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;.\d0277596-4b93-4d74-9afa-7ee5000e169f.jpg&#39;</span><span class="p">)</span>
+<span class="n">rgb_img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">rgb_img</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/a6946d35950e48128ef4f90e3abc41bfb601fbfecaba0a7761f7070ace74ca6b.png" src="../../_images/a6946d35950e48128ef4f90e3abc41bfb601fbfecaba0a7761f7070ace74ca6b.png" />
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">QUESTION:</span></code>
+How many color channels does this Dolores Umbridge image have?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dolores</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;./dolores.jpg&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">dolores</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;BuPu_r&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/a26a14e6ecac8474f0a43c58f93a63c374f0046b2e1265417f3b5ef1cb5a33ab.png" src="../../_images/a26a14e6ecac8474f0a43c58f93a63c374f0046b2e1265417f3b5ef1cb5a33ab.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">dolores</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(3456, 4608, 3)
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">NOTE:</span></code> An image that appears to be black and white or grayscale with literal hues of gray, white, and black color typically has three channels due to the way color images are represented in digital form.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">channel</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;Red&#39;</span><span class="p">,</span> <span class="s1">&#39;Green&#39;</span><span class="p">,</span> <span class="s1">&#39;Blue&#39;</span><span class="p">]):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">dolores</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">channel</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">color</span><span class="si">}</span><span class="s2"> Channel&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/6600c556f8d761017086fd1a53c5e683bb252a7857d1deb380db423aaddbf5a6.png" src="../../_images/6600c556f8d761017086fd1a53c5e683bb252a7857d1deb380db423aaddbf5a6.png" />
+<img alt="../../_images/b9c02a08b0a286bf33c9314a1f37ec8925768505da34c174ba02178f37a377d8.png" src="../../_images/b9c02a08b0a286bf33c9314a1f37ec8925768505da34c174ba02178f37a377d8.png" />
+<img alt="../../_images/e04cc11f0f71dc90ae98bcb1e428508501ae8529c71f2d79f4bef6d2df81aedf.png" src="../../_images/e04cc11f0f71dc90ae98bcb1e428508501ae8529c71f2d79f4bef6d2df81aedf.png" />
+</div>
+</div>
+<p>Interestingly, images in literal grayscale have the same values for all its channel.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">channel</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;Red&#39;</span><span class="p">,</span> <span class="s1">&#39;Green&#39;</span><span class="p">,</span> <span class="s1">&#39;Blue&#39;</span><span class="p">]):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">hagrid</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">channel</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">color</span><span class="si">}</span><span class="s2"> Channel&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/494b66397a74c0978f9ef2fd21f3bce9adaa04575dc9ea469de4d837512745b5.png" src="../../_images/494b66397a74c0978f9ef2fd21f3bce9adaa04575dc9ea469de4d837512745b5.png" />
+<img alt="../../_images/32176fe02ef77f5253a67d25211517e59921b7017b919d88ee460db27951e4ee.png" src="../../_images/32176fe02ef77f5253a67d25211517e59921b7017b919d88ee460db27951e4ee.png" />
+<img alt="../../_images/40bf91dd766d3a89d521b896f58b95ae3de3ddd3f4f7308334112783e76edc7b.png" src="../../_images/40bf91dd766d3a89d521b896f58b95ae3de3ddd3f4f7308334112783e76edc7b.png" />
+</div>
+</div>
+<p><strong>Reshaping image data is just like reshaping an array or a matrix.</strong></p>
+<ul class="simple">
+<li><p>Resize can increase or decrease the size of the image. For example, you can resize image from 100x100 to 20x20. Reshape changes the shape of the image without changing the total size. For example, you can reshape image from 100x100 to 10x1000 or to 1x100x100.</p></li>
+</ul>
+<p>Answered by Andrey Lukyanenko (Stack Overflow)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># stretchy Hagrid!</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">hagrid</span><span class="p">,</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">)))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/bf314f47c47bec2332ebdb6952ab6b8fb8557cf33ab7077e583787143f022376.png" src="../../_images/bf314f47c47bec2332ebdb6952ab6b8fb8557cf33ab7077e583787143f022376.png" />
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">REMEMBER:</span></code> When you resize an image, the visible features can be stretched or distorted, and it’s crucial to consider the implications of this operation.</p>
+<p>Imagine you’re teaching a magical creature recognition spell to your model using peculiar, twisted images of Hagrid. If you only show it these odd, distorted versions of everyone’s favorite half-giant, your model might become so enchanted by these peculiarities that it’ll fumble and misfire when confronted with the true, undistorted Hagrid! Remember, in the world of AI, <code class="docutils literal notranslate"><span class="pre">your</span> <span class="pre">model</span> <span class="pre">can</span> <span class="pre">only</span> <span class="pre">learn</span> <span class="pre">what</span> <span class="pre">you</span> <span class="pre">teach</span> <span class="pre">it</span></code>, so make sure it’s learning from the right magical scrolls!</p>
+</section>
+<section id="convolutional-neural-network">
+<h2>Convolutional Neural Network<a class="headerlink" href="#convolutional-neural-network" title="Link to this heading">#</a></h2>
+<p>The CNNs emerged from the study of the brain’s visual cortex, and have been used in image recognition since 1980s. CNNs are also successful in implementing voice recognition and natural language processing. However, we will focus on visual applications for now.</p>
+<section id="why-cnn">
+<h3>Why CNN?<a class="headerlink" href="#why-cnn" title="Link to this heading">#</a></h3>
+<p>Image data are well-suited for training with Convolutional Neural Networks (CNNs) because images can be represented as matrix-like data, allowing CNNs to effectively capture spatial patterns and hierarchical features within the data.</p>
+</section>
+<section id="convolution-layer">
+<h3>1. Convolution Layer<a class="headerlink" href="#convolution-layer" title="Link to this heading">#</a></h3>
+<p>The most important building block of a CNN is the convolutional layer. It is a mathematical operation that slides one function over another and measures the integral of their pointwise multiplication. Convolutional network works on the central concept of a convolution operation like this:</p>
+<p><img alt="Convolution Operation" src="../../_images/first.gif" /></p>
+<p>Mathematically, it looks like this:</p>
+<p>Let’s say we have a 5 x 5 input image <span class="math notranslate nohighlight">\(I\)</span> of channel 0 of batch 0. Hence, its shape is (0, 0, 5, 5):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+I = \begin{bmatrix}
+i_{11} &amp; i_{12} &amp; i_{13} &amp; i_{14} &amp; i_{15} \\
+i_{21} &amp; i_{22} &amp; i_{23} &amp; i_{24} &amp; i_{25} \\
+i_{31} &amp; i_{32} &amp; i_{33} &amp; i_{34} &amp; i_{35} \\
+i_{41} &amp; i_{42} &amp; i_{43} &amp; i_{44} &amp; i_{45} \\
+i_{51} &amp; i_{52} &amp; i_{53} &amp; i_{54} &amp; i_{55}
+\end{bmatrix}
+\end{split}\]</div>
+<p>Each of this pixel may represent the brightness ranging from 0 to 255. Or if normalized, shall be 0 to 1.</p>
+<p>If we define a 3 x 3 patch which we commonly called weights (W) or in computer vision, we called filters/kernels like this (we shall called filters in this lecture note for simplicity):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+W = \begin{bmatrix}
+w_{11} &amp; w_{12} &amp; w_{13} \\
+w_{21} &amp; w_{22} &amp; w_{23} \\
+w_{31} &amp; w_{32} &amp; w_{33}
+\end{bmatrix}
+\end{split}\]</div>
+<p>Let’s say we are scanning the middle of the image, then the output feature would be (we’ll denote this as <span class="math notranslate nohighlight">\(o_{33}\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[
+output_{33} = w_{11} \cdot i_{22} + w_{12} \cdot i_{23} + w_{13} \cdot i_{24} + w_{21} \cdot i_{32} + w_{22} \cdot i_{33} + w_{23} \cdot i_{34} + w_{31} \cdot i_{42} + w_{32} \cdot i_{43} + w_{33} \cdot i_{44}
+\]</div>
+<p>This will result in one output feature called feature map. Of course, we may add bias to it and then will be fed through an activation function.</p>
+<p>Actual feature maps look like this. Each feature map is a output of a single training example and convolve each kernel over the sample. In simple words, if we have <span class="math notranslate nohighlight">\(k\)</span> filters, then we have <span class="math notranslate nohighlight">\(k\)</span> feature maps. They represent the activation part corresponding to the kernels.</p>
+<p><img alt="Feature Maps" src="../../_images/second.png" /></p>
+<p>In using PyTorch, we primarily use the script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">input_channels</span><span class="p">,</span> <span class="n">output_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="a-filters">
+<h4>A. Filters<a class="headerlink" href="#a-filters" title="Link to this heading">#</a></h4>
+<p><strong>1. How the filters look like?</strong> It turns out that each filter actually detects the presence of certain visual patterns. For example, this filter below detects whether there is an edge at that location of the image. There are also other similar filters detecting corners, lines, etc. Check out <a class="reference download internal" download="" href="../../_downloads/21b4ef9ded6b7fa31972fb00fca1dad8/third.png"><span class="xref download myst">https://setosa.io/ev/image-kernels/</span></a> and try changing the values.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+w = \begin{bmatrix}
+0 &amp; 1 &amp; 0 \\
+1 &amp; -4 &amp; 1 \\
+0 &amp; 1 &amp; 0
+\end{bmatrix}
+\end{split}\]</div>
+<p>Real filters can look like this. They may look somewhat random at first glance, but we can see that clear structure being learned in most kernels. For example, filters 3 and 4 seem to be learning diagonal edges in opposite directions, and others capture round edges or enclosed spaces:</p>
+<p><img alt="Learned Filters" src="../../_images/third.png" /></p>
+<p>However, it is important to note that we DON’T need to decide the filters to use. We can simply feed a randomly generated filter, and it is the job of CNN to learn these filters. These learned filters will learn what features are most efficient for the classification process.</p>
+<p><strong>What is the shape of filters?</strong></p>
+<p>For each image, we can apply multiple filters, depending on how many output channels we want.</p>
+<p>Let’s say the input channel is 3, and we want the output channel to be 64, then we apply a filter of size (3, 64, filter width, filter height).</p>
+<p>Hence, <code class="docutils literal notranslate"><span class="pre">torch.nn.Conv2d(3,</span> <span class="pre">64,</span> <span class="pre">filter_width,</span> <span class="pre">filter_height)</span></code>.</p>
+<p>Do not be confused with the Conv2d and PyTorch image shape.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Conv2d</span></code>: <code class="docutils literal notranslate"><span class="pre">torch.nn.Conv2d(input_channels,</span> <span class="pre">output_channels,</span> <span class="pre">kernel_size,</span> <span class="pre">stride=1,</span> <span class="pre">padding=0)</span></code></p></li>
+<li><p>Image shape: <code class="docutils literal notranslate"><span class="pre">(input_channels,</span> <span class="pre">image_height,</span> <span class="pre">image_width)</span></code></p></li>
+</ul>
+<p><strong>How do we know how many output channels to use?</strong>
+The answer is we don’t know… we just try and see what works. More filters allow the network to look at more patterns.</p>
+<p><strong>What should be the filter size?</strong>
+If we use a 3 x 3 filter, each pixel gets 8 neighboring information. On the other hand, if we use a big filter like 9 x 9, then we get 80 neighboring information. In research and industry, the typical filter sizes are <span class="math notranslate nohighlight">\(3 \times 3\)</span> or <span class="math notranslate nohighlight">\(5 \times 5\)</span>.</p>
+</section>
+<section id="b-padding">
+<h4>B. Padding<a class="headerlink" href="#b-padding" title="Link to this heading">#</a></h4>
+<p><strong>2. How should we convolve the edges?</strong> Recall this image:</p>
+<p><img alt="Edge Convolution" src="../../_images/fourth.gif" /></p>
+<p>It has 4 x 4 pixels = 16 features. But after convolution, we only got 2 x 2 pixels = 4 features left. Is that good? There are no correct answers here but we are quite sure that we lose some information. One way to address this is padding, where we can enlarge the input image by padding the surroundings with zeros. How much? Padding until we get the original size or larger size, for example, like this:</p>
+<p><img alt="Padding Example" src="../../_images/fifth.gif" /></p>
+<p>The below put even more padding which pad to make sure each single pixel is convoluted (full padding), which results in the output features being even larger:</p>
+<p><img alt="Full Padding" src="../../_images/sixth.gif" /></p>
+</section>
+<section id="c-strides">
+<h4>C. Strides<a class="headerlink" href="#c-strides" title="Link to this heading">#</a></h4>
+<p><strong>3. How many steps should we take to slide our filter?</strong> Skip 2? Should we shift 1 step per convolution, or 2 steps, or how many steps. In fact, it really depends on how detailed you want it to be. But defining bigger steps reduces the feature size and thus reduces the computation time. Bigger step is like human scanning a picture more roughly but can reduce the computation time… whether to use it is something to be experimented though.</p>
+<p><strong>No padding with stride of 2:</strong></p>
+<p><img alt="No Padding Stride 2" src="../../_images/7.gif" /></p>
+<p><strong>Padding with stride of 2:</strong></p>
+<p><img alt="Padding Stride 2" src="../../_images/8.gif" /></p>
+<p><strong>Actual image convolution can look like this (with stride 1 and no padding):</strong></p>
+<p><img alt="Actual Convolution" src="../../_images/9.gif" /></p>
+<p><strong>The convoluted image may look like this (nothing related with the above matrix though):</strong></p>
+<p><img alt="Convoluted Image" src="../../_images/10.png" /></p>
+<p>The formula to be used to measure the padding value to get the spatial size of the input and output volume to be the same with stride 1 is:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{K - 1}{2}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(K\)</span> is the filter size. This means that if our image is size <span class="math notranslate nohighlight">\(24 \times 24\)</span>, and the filter size is <span class="math notranslate nohighlight">\(3 \times 3\)</span>, then our <span class="math notranslate nohighlight">\(K\)</span> has size 3 so the padding should be <span class="math notranslate nohighlight">\(\frac{(3-1)}{2} = 1\)</span>, then we need to add a border of one pixel valued 0 around the outside of the image, which would result in the input image of size <span class="math notranslate nohighlight">\(26 \times 26\)</span>.</p>
+</section>
+<section id="d-shape">
+<h4>D. Shape<a class="headerlink" href="#d-shape" title="Link to this heading">#</a></h4>
+<p><strong>4. What would be the shape of the output matrix?</strong> The output shape (denote as <span class="math notranslate nohighlight">\(O\)</span>) depends on the stride (denote as <span class="math notranslate nohighlight">\(S\)</span>), padding (denote as <span class="math notranslate nohighlight">\(P\)</span>), filter size (denote as <span class="math notranslate nohighlight">\(F\)</span>), as well as the input width and height (denote as <span class="math notranslate nohighlight">\(I\)</span>). <span class="math notranslate nohighlight">\(O\)</span> can be calculated with the formula as follows:</p>
+<div class="math notranslate nohighlight">
+\[
+O = \frac{W - F + 2P}{S} + 1
+\]</div>
+<p>In this case (code below), if our <span class="math notranslate nohighlight">\(W\)</span> is 28, <span class="math notranslate nohighlight">\(F\)</span> is 5, <span class="math notranslate nohighlight">\(P\)</span> is 2, and <span class="math notranslate nohighlight">\(S\)</span> is 1 then the width/height is 28.</p>
+<p><strong>In conclusion,</strong></p>
+<ul class="simple">
+<li><p>The input will have a 4D shape of (batch size, input channels, input height, input width).</p></li>
+<li><p>The output will have a 4D shape of (batch size, output channels, output height, output width).</p></li>
+<li><p>The convolutional filters will have a 4D shape of (input channels, output channels, filter height, filter width).</p></li>
+</ul>
+</section>
+</section>
+<section id="max-average-pooling-layer">
+<h3>2. Max/Average Pooling Layer<a class="headerlink" href="#max-average-pooling-layer" title="Link to this heading">#</a></h3>
+<p>Talking about reducing computation time, a common way is to perform a pooling layer which simply downsamples the image by averaging a set of pixels, or by taking the maximum value. If we define a pooling size of 2, this involves mapping each 2 x 2 pixels to one output, like this:</p>
+<p><img alt="Pooling Layer" src="../../_images/11.png" /></p>
+<p>Nevertheless, pooling has a really big downside, i.e., it basically loses a lot of information. Compared to strides, strides simply scan less but maintain the same resolution, but pooling simply reduces the resolution of the images.</p>
+<p>As Geoffrey Hinton said on Reddit AMA in 2014 - The pooling operation used in CNN is a big mistake and the fact that it works so well is a disaster. In fact, in most recent CNN architectures like ResNets, it uses pooling very minimally or not at all.</p>
+<p>The maximum pooling layer for 2D images over an input signal can be used through this script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="image" src="../../_images/12.png" /></p>
+</section>
+<section id="batchnorm-layer">
+<h3>3. BatchNorm Layer<a class="headerlink" href="#batchnorm-layer" title="Link to this heading">#</a></h3>
+<p>Batch norm is nothing other than normalizing samples within the batch. That is, minus the mean of features within the batch. This helps with unstable gradients in SGD. Note that the output size does not change from input size after BatchNorm.</p>
+<p><img alt="image" src="../../_images/13.png" /></p>
+<p><img alt="image" src="../../_images/14.png" /></p>
+<p><strong>Advantages</strong></p>
+<ol class="arabic simple">
+<li><p>Speeds up training</p></li>
+<li><p>Allows sub-optimal starts</p></li>
+<li><p>Acts as a regularizer (a little)</p></li>
+<li><p>See <a class="reference external" href="https://youtu.be/DtEq44FTPM4?t=372">https://youtu.be/DtEq44FTPM4?t=372</a></p></li>
+</ol>
+</section>
+<section id="dropout-layer">
+<h3>4. Dropout Layer<a class="headerlink" href="#dropout-layer" title="Link to this heading">#</a></h3>
+<p>This is a layer of arbitrarily removing some values in your data. By randomly removing data in each iteration, you make the neural network more robust against overfitting, because it needs to learn to fight with incomplete data.</p>
+<p>For example, say we have a vector of <span class="math notranslate nohighlight">\(x = \{1, 2, 3, 4, 5\}\)</span>. Let’s set <span class="math notranslate nohighlight">\(p = 0.2\)</span> which means 20% of data will be turned to 0. In training mode, <span class="math notranslate nohighlight">\(x_{train} = \{1, 0, 3, 4, 5\}\)</span>; do not confuse why I turn off 2 and not others, I just turn 20% off randomly. In evaluation mode, we turn off dropout, but to make sure the distribution remains similar, we multiply the values by <span class="math notranslate nohighlight">\(1 - 0.2 = 0.8\)</span>, which becomes <span class="math notranslate nohighlight">\(x_{inference} = \{0.8, 1.6, 2.4, 3.2, 4.0\}\)</span>.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./lectures\lesson5"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../lesson4/lesson4.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Lecture 4 - Main Types of Deep Learning Neural Networks</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../lesson6/lesson6.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Lecture 6 - Training CNN Model using MNIST Dataset</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#group-activity">Group Activity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deliverables">Deliverables:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-study-content-outline">Case Study Content Outline:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-learning-in-computer-vision">Deep Learning in Computer Vision</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#image-data">Image Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convolutional-neural-network">Convolutional Neural Network</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-cnn">Why CNN?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convolution-layer">1. Convolution Layer</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-filters">A. Filters</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#b-padding">B. Padding</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c-strides">C. Strides</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#d-shape">D. Shape</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#max-average-pooling-layer">2. Max/Average Pooling Layer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#batchnorm-layer">3. BatchNorm Layer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dropout-layer">4. Dropout Layer</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kein Jake Culanggo
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
