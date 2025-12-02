@@ -24,10 +24,18 @@ jobs:
           python-version: '3.11'
       - name: Install dependencies
         run: |
+          pip install --upgrade pip
           pip install -r book/requirements.txt
       - name: Build book
         run: |
-          jupyter-book build book
+          jupyter-book build book || exit 1
+          if [ ! -d "book/_build/html" ]; then
+            echo "ERROR: Build output not found!"
+            echo "Contents of book/_build:"
+            ls -la book/_build/ || echo "book/_build does not exist"
+            exit 1
+          fi
+          echo "Build successful! Output found at book/_build/html"
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
